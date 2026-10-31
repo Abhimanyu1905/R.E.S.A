@@ -1,0 +1,43 @@
+filename,title,doc_type,min_role_level
+01_refund_policy.md,Customer Refund Policy,policy,1
+02_shipping_policy.md,Domestic Shipping and Fulfillment Policy,policy,1
+03_returns_policy.md,Merchandise Returns Policy,policy,1
+04_returns_faq.md,Frequently Asked Questions About Returns,faq,1
+05_warranty_policy.md,Limited Hardware Warranty Policy,policy,1
+06_shipping_faq.md,Frequently Asked Questions About Shipping,faq,1
+07_warranty_faq.md,Frequently Asked Questions About Warranty Service,faq,1
+08_account_management_faq.md,Account Management and Security FAQ,faq,1
+09_payment_methods_policy.md,Accepted Payment Methods and Billing Policy,policy,1
+10_privacy_faq.md,Customer Privacy and Data Protection FAQ,faq,1
+11_order_tracking_policy.md,Order Tracking and Transit Status Policy,policy,1
+12_gift_cards_policy.md,Digital Gift Cards and Balance Policy,policy,1
+13_cancellations_policy.md,Order Cancellation and Modification Policy,policy,1
+14_loyalty_rewards_policy.md,RESA Apex Circle Loyalty Program Terms,policy,1
+15_international_orders_faq.md,International Orders and Customs FAQ,faq,1
+16_damaged_defective_items_policy.md,Damaged and Defective Merchandise Policy,policy,1
+17_price_matching_policy.md,Retail Price Matching and Adjustment Policy,policy,1
+18_promotions_coupons_faq.md,Promotional Codes and Discounts FAQ,faq,1
+19_tier2_escalation_runbook.md,Tier-2 Escalation Protocol and Runbook,policy,2
+20_fraud_detection_and_review_steps.md,Fraud Detection and Manual Order Review Guide,policy,2
+21_chargeback_and_dispute_handling.md,Chargeback Management and Dispute Defense Runbook,policy,2
+22_customer_support_macros_guide.md,Support Macro Usage and Templating Standards,policy,2
+23_sla_and_response_time_rules.md,Service Level Agreements and Response Time Rules,policy,2
+24_internal_admin_portal_guide.md,RESA Horizon Admin Portal Agent Navigation Guide,policy,2
+25_supervisor_override_and_appeals_runbook.md,Supervisor Override and Executive Appeals Runbook,policy,2
+26_order_modification_agent_runbook.md,Order Modification and Warehouse Intercept Runbook,policy,2
+27_courier_tracer_and_claims_guide.md,Carrier Tracer Investigations and Insurance Claims Guide,policy,2
+28_agent_qa_and_call_monitoring_standards.md,Agent Quality Assurance and Performance Standards,policy,2
+29_customer_deescalation_and_abuse_policy.md,Customer De-escalation and Staff Protection Policy,policy,2
+30_inventory_discrepancy_and_backorder_runbook.md,Inventory Discrepancy and Backorder Management Runbook,policy,2
+31_agent_system_troubleshooting_faq.md,Support Agent Internal Tooling and Systems FAQ,faq,2
+32_workforce_management_and_attendance_faq.md,Workforce Management and Attendance Standards FAQ,faq,2
+33_compensation_and_salary_bands.md,Support Organization Compensation and Salary Bands,policy,3
+34_legal_hold_and_ediscovery_procedures.md,Legal Hold and eDiscovery Preservation Procedures,policy,3
+35_saas_vendor_procurement_and_contracts.md,SaaS Vendor Procurement and Commercial Contracting Policy,policy,3
+36_security_incident_response_plan.md,Cybersecurity Incident Response and Breach Escalation Plan,policy,3
+37_board_level_kpis_and_quarterly_reporting.md,Board-Level Operational KPIs and Governance Metrics,policy,3
+38_executive_on_call_and_crisis_management.md,Executive On-Call and Corporate Crisis Management Plan,policy,3
+39_data_protection_officer_charter_and_governance.md,Data Protection Officer Charter and Privacy Governance,policy,3
+40_enterprise_business_continuity_and_dr.md,Enterprise Business Continuity and Disaster Recovery Plan,policy,3
+41_facilities_security_and_visitor_access_policy.md,Physical Facilities Security and Access Control Policy,policy,3
+42_executive_compensation_and_stock_administration_faq.md,Executive Compensation and Equity Administration FAQ,faq,3

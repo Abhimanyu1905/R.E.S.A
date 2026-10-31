@@ -4,7 +4,15 @@ from __future__ import annotations
 import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import CheckConstraint, Float, ForeignKey, Index, SmallInteger, Text, UniqueConstraint
+from sqlalchemy import (
+    CheckConstraint,
+    Float,
+    ForeignKey,
+    Index,
+    SmallInteger,
+    Text,
+    UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import TIMESTAMP, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -44,8 +52,8 @@ class Feedback(Base):
     )
 
     # relationships
-    message: Mapped["ChatMessage"] = relationship("ChatMessage", back_populates="feedbacks")
-    user: Mapped["User"] = relationship("User", back_populates="feedbacks")
+    message: Mapped[ChatMessage] = relationship("ChatMessage", back_populates="feedbacks")
+    user: Mapped[User] = relationship("User", back_populates="feedbacks")
 
     def __repr__(self) -> str:
         return f"<Feedback message={self.message_id} rating={self.rating}>"
@@ -96,13 +104,13 @@ class UnansweredQuestion(Base):
     )
 
     # relationships
-    message: Mapped["ChatMessage | None"] = relationship(
+    message: Mapped[ChatMessage | None] = relationship(
         "ChatMessage", back_populates="unanswered"
     )
-    user: Mapped["User | None"] = relationship(
+    user: Mapped[User | None] = relationship(
         "User", foreign_keys=[user_id], overlaps="resolver"
     )
-    resolver: Mapped["User | None"] = relationship(
+    resolver: Mapped[User | None] = relationship(
         "User", foreign_keys=[resolved_by], overlaps="user"
     )
 

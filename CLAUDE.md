@@ -1,4 +1,4 @@
-PROJECT: Northwind Support, a RAG support assistant. Solo build, 6 weeks.
+PROJECT: R.E.S.A Support, a RAG support assistant. Solo build, 6 weeks.
 
 STACK: Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 + Alembic, psycopg 3,
 PostgreSQL 16 + pgvector (HNSW, cosine), sentence-transformers

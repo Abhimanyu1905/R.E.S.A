@@ -1,0 +1,27 @@
+{
+  "total_documents": 43,
+  "total_chunks": 403,
+  "status_counts": {
+    "indexed": 43
+  },
+  "documents_by_type": {
+    "faq": 10,
+    "policy": 32,
+    "ticket": 1
+  },
+  "chunks_by_type": {
+    "faq": 51,
+    "policy": 152,
+    "ticket": 200
+  },
+  "documents_by_role_level": {
+    "1": 18,
+    "2": 15,
+    "3": 10
+  },
+  "chunks_by_role_level": {
+    "1": 86,
+    "2": 270,
+    "3": 47
+  }
+}

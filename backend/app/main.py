@@ -1,19 +1,22 @@
 from __future__ import annotations
 
 import importlib.metadata
+from typing import TYPE_CHECKING
 
-from fastapi import FastAPI, Depends
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import get_settings
 from app.db import get_db
 
+if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
+
 settings = get_settings()
 
 app = FastAPI(
-    title="Northwind Support API",
+    title="R.E.S.A Support API",
     version="0.1.0",
     docs_url="/api/docs",
     redoc_url="/api/redoc",
@@ -30,7 +33,7 @@ app.add_middleware(
 
 
 @app.get("/api/v1/health", tags=["health"])
-async def health(db: AsyncSession = Depends(get_db)) -> dict[str, str]:
+async def health(db: AsyncSession = Depends(get_db)) -> dict[str, str]:  # noqa: B008
     """Liveness + readiness probe.
 
     Returns:

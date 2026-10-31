@@ -57,10 +57,10 @@ class Document(Base):
     )
 
     # relationships
-    uploader: Mapped["User | None"] = relationship(
+    uploader: Mapped[User | None] = relationship(
         "User", back_populates="documents", foreign_keys=[uploaded_by]
     )
-    chunks: Mapped[list["DocumentChunk"]] = relationship(
+    chunks: Mapped[list[DocumentChunk]] = relationship(
         "DocumentChunk", back_populates="document", cascade="all, delete-orphan"
     )
 
@@ -92,7 +92,7 @@ class DocumentChunk(Base):
     embedding: Mapped[list[float]] = mapped_column(Vector(384), nullable=False)
 
     # relationships
-    document: Mapped["Document"] = relationship("Document", back_populates="chunks")
+    document: Mapped[Document] = relationship("Document", back_populates="chunks")
 
     def __repr__(self) -> str:
         return f"<DocumentChunk doc={self.document_id} idx={self.chunk_index}>"

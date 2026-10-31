@@ -10,16 +10,19 @@ from __future__ import annotations
 
 import asyncio
 from logging.config import fileConfig
+from typing import TYPE_CHECKING
 
 from sqlalchemy import pool
-from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
+from app.config import get_settings
 
 # ── Load all models so their metadata is visible to autogenerate ─────────────
 from app.models import Base  # noqa: F401 – side-effect: registers all tables
-from app.config import get_settings
+
+if TYPE_CHECKING:
+    from sqlalchemy.engine import Connection
 
 # ── Alembic Config ────────────────────────────────────────────────────────────
 config = context.config

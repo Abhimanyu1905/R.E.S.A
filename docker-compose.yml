@@ -45,6 +45,8 @@ services:
              uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./backend:/app # mount source for --reload during development
+      - ./scripts:/app/scripts
+      - ./corpus:/app/corpus
 
 volumes:
   pgdata:

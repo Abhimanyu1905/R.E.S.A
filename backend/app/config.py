@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import List
 
-from pydantic import AnyUrl, field_validator
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -30,11 +29,11 @@ class Settings(BaseSettings):
     CONFIDENCE_THRESHOLD: float = 0.35
 
     # CORS
-    CORS_ORIGINS: List[str] | str = ["http://localhost:5173"]
+    CORS_ORIGINS: list[str] | str = ["http://localhost:5173"]
 
     @field_validator("CORS_ORIGINS")
     @classmethod
-    def parse_cors(cls, v: List[str] | str) -> List[str]:
+    def parse_cors(cls, v: list[str] | str) -> list[str]:
         """Accept a comma-separated string or a list."""
         if isinstance(v, str):
             return [origin.strip() for origin in v.split(",") if origin.strip()]

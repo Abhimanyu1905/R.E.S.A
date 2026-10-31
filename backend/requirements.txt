@@ -30,6 +30,7 @@ pydantic-settings==2.2.1
 python-dotenv==1.0.1
 python-jose==3.3.0
 python-multipart==0.0.9
+pypdf>=4.2.0
 PyYAML==6.0.1
 rsa==4.9
 sentence-transformers==3.0.1

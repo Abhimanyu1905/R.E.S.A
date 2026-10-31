@@ -20,7 +20,7 @@ class Role(Base):
     level: Mapped[int] = mapped_column(SmallInteger, unique=True, nullable=False)
 
     # relationships (back-populated by User)
-    users: Mapped[list["User"]] = relationship("User", back_populates="role")
+    users: Mapped[list[User]] = relationship("User", back_populates="role")
 
     def __repr__(self) -> str:
         return f"<Role {self.name!r} level={self.level}>"

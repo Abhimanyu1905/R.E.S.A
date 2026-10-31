@@ -12,19 +12,25 @@ HNSW index parameters:  m=16, ef_construction=64, cosine similarity.
 """
 from __future__ import annotations
 
-from typing import Sequence, Union
+from typing import TYPE_CHECKING
 
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMP, UUID
+
 from alembic import op
 
-TIMESTAMPTZ = lambda: TIMESTAMP(timezone=True)
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+
+def TIMESTAMPTZ():
+    return TIMESTAMP(timezone=True)
 
 # revision identifiers
 revision: str = "0001"
-down_revision: Union[str, None] = None
-branch_labels: Union[str, Sequence[str], None] = None
-depends_on: Union[str, Sequence[str], None] = None
+down_revision: str | None = None
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:

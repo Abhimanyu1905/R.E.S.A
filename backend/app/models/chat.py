@@ -1,19 +1,18 @@
 """Chat session and message models."""
 from __future__ import annotations
 
+import uuid
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from app.models.feedback import Feedback, UnansweredQuestion
     from app.models.user import User
 
-import uuid
 
-from sqlalchemy import Boolean, CheckConstraint, Float, Index, Integer, Text
+from sqlalchemy import Boolean, CheckConstraint, Float, ForeignKey, Index, Integer, Text
 from sqlalchemy.dialects.postgresql import JSONB, TIMESTAMP, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
-from sqlalchemy import ForeignKey
 
 from app.models.base import Base
 
@@ -35,8 +34,8 @@ class ChatSession(Base):
     )
 
     # relationships
-    user: Mapped["User"] = relationship("User", back_populates="chat_sessions")
-    messages: Mapped[list["ChatMessage"]] = relationship(
+    user: Mapped[User] = relationship("User", back_populates="chat_sessions")
+    messages: Mapped[list[ChatMessage]] = relationship(
         "ChatMessage", back_populates="session", cascade="all, delete-orphan"
     )
 
@@ -74,11 +73,11 @@ class ChatMessage(Base):
     )
 
     # relationships
-    session: Mapped["ChatSession"] = relationship("ChatSession", back_populates="messages")
-    feedbacks: Mapped[list["Feedback"]] = relationship(
+    session: Mapped[ChatSession] = relationship("ChatSession", back_populates="messages")
+    feedbacks: Mapped[list[Feedback]] = relationship(
         "Feedback", back_populates="message"
     )
-    unanswered: Mapped[list["UnansweredQuestion"]] = relationship(
+    unanswered: Mapped[list[UnansweredQuestion]] = relationship(
         "UnansweredQuestion", back_populates="message"
     )
 

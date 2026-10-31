@@ -12,10 +12,10 @@ from sqlalchemy.sql import func
 from app.models.base import Base
 
 if TYPE_CHECKING:
-    from app.models.role import Role
-    from app.models.document import Document
     from app.models.chat import ChatSession
+    from app.models.document import Document
     from app.models.feedback import Feedback
+    from app.models.role import Role
 
 
 class User(Base):
@@ -38,14 +38,14 @@ class User(Base):
     )
 
     # relationships
-    role: Mapped["Role"] = relationship("Role", back_populates="users")
-    documents: Mapped[list["Document"]] = relationship(
+    role: Mapped[Role] = relationship("Role", back_populates="users")
+    documents: Mapped[list[Document]] = relationship(
         "Document", back_populates="uploader", foreign_keys="Document.uploaded_by"
     )
-    chat_sessions: Mapped[list["ChatSession"]] = relationship(
+    chat_sessions: Mapped[list[ChatSession]] = relationship(
         "ChatSession", back_populates="user"
     )
-    feedbacks: Mapped[list["Feedback"]] = relationship("Feedback", back_populates="user")
+    feedbacks: Mapped[list[Feedback]] = relationship("Feedback", back_populates="user")
 
     def __repr__(self) -> str:
         return f"<User {self.email!r}>"
