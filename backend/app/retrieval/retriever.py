@@ -74,7 +74,7 @@ async def retrieve(query: str, *, user_level: int, k: int = 5) -> list[Chunk]:
 
     async with AsyncSessionLocal() as session:
         # Set app.user_level for PostgreSQL Row-Level Security (RLS) enforcement.
-        await session.execute(text(f"SET LOCAL app.user_level = {int(user_level)}"))
+        await session.execute(text(f"SET LOCAL app.user_level = {user_level}"))
 
         # Raise HNSW ef_search for higher recall; scoped to this transaction.
         await session.execute(text("SET LOCAL hnsw.ef_search = 100"))

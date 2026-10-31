@@ -85,6 +85,16 @@ async def seed_rbac_documents() -> AsyncGenerator[dict[str, Any], None]:
     hash_l3 = hashlib.sha256(b"seed_rbac_l3_test_doc").hexdigest()
     test_hashes = [hash_l1, hash_l2, hash_l3]
 
+    # Require sentence_transformers (installed in Docker test environment)
+    try:
+        import sentence_transformers  # noqa: F401
+    except ImportError:
+        pytest.skip(
+            "sentence_transformers not installed in host environment. "
+            "Run integration tests inside Docker: "
+            "docker exec resa-backend-1 python -m pytest tests/integration/test_rbac_retrieval.py"
+        )
+
     # Pre-clean any leftover documents from aborted runs
     async with AsyncSessionLocal() as session:
         await session.execute(
