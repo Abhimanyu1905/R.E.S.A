@@ -49,6 +49,7 @@ ignore = ["E501"]  # line-length handled by formatter
 
 [tool.ruff.lint.per-file-ignores]
 "app/models/*" = ["TC002", "TC003"]
+"app/retrieval/*" = ["TC003"]
 
 [tool.ruff.format]
 quote-style = "double"
