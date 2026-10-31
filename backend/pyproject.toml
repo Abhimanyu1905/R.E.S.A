@@ -75,3 +75,4 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = ["."]
 
+[tool.pytest.ini_options]

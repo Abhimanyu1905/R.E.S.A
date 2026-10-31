@@ -1,0 +1,33 @@
+{
+  "total_eval_questions": 58,
+  "answerable_questions": 40,
+  "out_of_scope_questions": 10,
+  "rbac_leak_questions": 8,
+  "retrieval_metrics": {
+    "hit_rate_at_1": 0.9000,
+    "hit_rate_at_3": 0.9750,
+    "hit_rate_at_5": 1.0000,
+    "mrr": 0.9383,
+    "answerable_score_min": 0.7122,
+    "answerable_score_avg": 0.7742,
+    "answerable_score_max": 0.8717
+  },
+  "rbac_enforcement": {
+    "leak_prevention_rate": 1.0000,
+    "passed": 8,
+    "total": 8,
+    "max_allowed_score": 0.6759,
+    "avg_allowed_score": 0.6132
+  },
+  "out_of_scope_calibration": {
+    "score_min": 0.4143,
+    "score_avg": 0.5203,
+    "score_max": 0.6275
+  },
+  "threshold_calibration": {
+    "lowest_answerable_top1": 0.7122,
+    "highest_out_of_scope_top1": 0.6275,
+    "recommended_confidence_threshold": 0.67,
+    "default_env_threshold": 0.35
+  }
+}
