@@ -47,6 +47,6 @@ services:
       - ./backend:/app # mount source for --reload during development
       - ./scripts:/app/scripts
       - ./corpus:/app/corpus
-
+      - ./metrics:/app/metrics
 volumes:
   pgdata:
