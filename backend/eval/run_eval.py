@@ -96,6 +96,26 @@ def get_chunking_constants() -> tuple[str | int, str | int]:
         return ("unknown", "unknown")
 
 
+def get_eval_chunk_config() -> tuple[str | int, str | int]:
+    """Read chunk_size and chunk_overlap from metrics/ingest_config.json.
+
+    Falls back to current constants from app.ingest.chunking if the file is missing.
+    """
+    try:
+        metrics_dir = get_metrics_dir()
+        config_path = metrics_dir / "ingest_config.json"
+        if config_path.is_file():
+            with open(config_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            cs = data.get("chunk_size")
+            co = data.get("chunk_overlap")
+            if cs is not None and co is not None:
+                return (cs, co)
+    except Exception:
+        pass
+    return get_chunking_constants()
+
+
 def calc_stats(scores: list[float]) -> dict:
     if not scores:
         return {"min": 0.0, "median": 0.0, "max": 0.0}
@@ -106,13 +126,22 @@ def calc_stats(scores: list[float]) -> dict:
     }
 
 
-def append_eval_log(k: int, hit_rate: float, mrr: float, n: int, label: str = "") -> None:
+def append_eval_log(
+    k: int,
+    hit_rate: float,
+    mrr: float,
+    n: int,
+    label: str = "",
+    chunk_size: str | int | None = None,
+    chunk_overlap: str | int | None = None,
+) -> None:
     metrics_dir = get_metrics_dir()
     log_file = metrics_dir / "eval_log.csv"
 
     timestamp = datetime.now(timezone.utc).isoformat()
     git_sha = get_git_sha()
-    chunk_size, chunk_overlap = get_chunking_constants()
+    if chunk_size is None or chunk_overlap is None:
+        chunk_size, chunk_overlap = get_eval_chunk_config()
     settings = get_settings()
     conf_threshold = settings.CONFIDENCE_THRESHOLD
 
@@ -384,11 +413,15 @@ async def run_evaluation(k: int = 5, label: str = "", use_cache: bool = False) -
     hit_rate_at_k = hits / total_ans if total_ans > 0 else 0.0
     mrr = sum(reciprocal_ranks) / total_ans if total_ans > 0 else 0.0
 
+    chunk_size, chunk_overlap = get_eval_chunk_config()
+
     summary = {
         "n_answerable": total_ans,
         "hit_rate_at_k": round(hit_rate_at_k, 4),
         "mrr": round(mrr, 4),
         "rbac_violations": rbac_violations,
+        "chunk_size": chunk_size,
+        "chunk_overlap": chunk_overlap,
         "top_score_stats": {
             "answerable": calc_stats(ans_scores),
             "out_of_scope": calc_stats(oos_scores),
@@ -398,6 +431,7 @@ async def run_evaluation(k: int = 5, label: str = "", use_cache: bool = False) -
 
     # Print JSON summary
     print(json.dumps(summary, indent=2))
+    print(f"Chunk Config: chunk_size={chunk_size}, chunk_overlap={chunk_overlap}")
 
     # Print 5 lowest-scoring answerable questions
     ans_records = [r for r in all_records if r["answerable"]]
@@ -422,7 +456,15 @@ async def run_evaluation(k: int = 5, label: str = "", use_cache: bool = False) -
     write_failures_md(failures=failures, k=k, n_answerable=total_ans)
 
     # Append exactly one row to metrics/eval_log.csv
-    append_eval_log(k=k, hit_rate=hit_rate_at_k, mrr=mrr, n=total_ans, label=label)
+    append_eval_log(
+        k=k,
+        hit_rate=hit_rate_at_k,
+        mrr=mrr,
+        n=total_ans,
+        label=label,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+    )
 
     return summary
 

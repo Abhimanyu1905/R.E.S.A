@@ -142,9 +142,12 @@ class RecursiveCharacterTextSplitter:
 # Module-level splitter instance (shared, re-entrant)
 # ---------------------------------------------------------------------------
 
+CHUNK_SIZE = 800
+CHUNK_OVERLAP = 120
+
 _SPLITTER = RecursiveCharacterTextSplitter(
-    chunk_size=800,
-    chunk_overlap=120,
+    chunk_size=CHUNK_SIZE,
+    chunk_overlap=CHUNK_OVERLAP,
     separators=["\n\n", "\n", ". ", " "],
 )
 
@@ -156,7 +159,12 @@ _HEADING_RE = re.compile(r"^#{1,6}\s+", re.MULTILINE)
 # Public entry-point
 # ---------------------------------------------------------------------------
 
-def chunk_document(pages: list[PageDict], doc_type: str) -> list[dict[str, Any]]:
+def chunk_document(
+    pages: list[PageDict],
+    doc_type: str,
+    chunk_size: int | None = None,
+    chunk_overlap: int | None = None,
+) -> list[dict[str, Any]]:
     """Chunk a parsed document into RAG-ready pieces.
 
     Parameters
@@ -166,6 +174,10 @@ def chunk_document(pages: list[PageDict], doc_type: str) -> list[dict[str, Any]]
     doc_type:
         The canonical document type string: "markdown", "text", "pdf",
         or "ticket".
+    chunk_size:
+        Optional chunk size override in characters.
+    chunk_overlap:
+        Optional chunk overlap override in characters.
 
     Returns
     -------
@@ -178,15 +190,27 @@ def chunk_document(pages: list[PageDict], doc_type: str) -> list[dict[str, Any]]
     source = pages[0]["source"]
     first_page = pages[0]["page"]
 
+    splitter = _SPLITTER
+    if chunk_size is not None or chunk_overlap is not None:
+        cs = chunk_size if chunk_size is not None else CHUNK_SIZE
+        co = chunk_overlap if chunk_overlap is not None else CHUNK_OVERLAP
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=cs,
+            chunk_overlap=co,
+            separators=["\n\n", "\n", ". ", " "],
+        )
+
     if doc_type == "ticket":
         return _chunk_tickets(pages)
     elif doc_type in {"markdown", "text", "policy", "faq"}:
         full_text = "\n\n".join(p["text"] for p in pages)
-        return _chunk_policy_or_faq(full_text, source, doc_type, first_page)
+        return _chunk_policy_or_faq(
+            full_text, source, doc_type, first_page, splitter=splitter
+        )
     else:
         # PDF and anything else: concatenate pages, split without heading prefix.
         full_text = "\n\n".join(p["text"] for p in pages)
-        raw_chunks = _SPLITTER.split_text(full_text)
+        raw_chunks = splitter.split_text(full_text)
         return [
             {
                 "text": chunk,
@@ -248,12 +272,19 @@ def _split_by_headings(text: str) -> list[tuple[str, str]]:
 
 
 def _chunk_policy_or_faq(
-    full_text: str, source: str, doc_type: str, first_page: int
+    full_text: str,
+    source: str,
+    doc_type: str,
+    first_page: int,
+    splitter: RecursiveCharacterTextSplitter | None = None,
 ) -> list[dict[str, Any]]:
     """Split a policy/FAQ document by heading, then by the text splitter.
 
     Every chunk is prefixed with  ``"<Title> > <Section>: "``.
     """
+    if splitter is None:
+        splitter = _SPLITTER
+
     title = _extract_title_from_yaml(full_text)
     body = _strip_yaml_front_matter(full_text)
     sections = _split_by_headings(body)
@@ -275,7 +306,7 @@ def _chunk_policy_or_faq(
         else:
             prefix = ""
 
-        raw_chunks = _SPLITTER.split_text(content)
+        raw_chunks = splitter.split_text(content)
         for raw in raw_chunks:
             chunk_text = prefix + raw if prefix else raw
             chunks.append(

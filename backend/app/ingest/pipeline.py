@@ -15,6 +15,7 @@ import hashlib
 import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
+import uuid
 
 from sqlalchemy import delete, select
 
@@ -49,6 +50,8 @@ async def ingest_file(
     min_role_level: int = 1,
     title: str | None = None,
     session: AsyncSession | None = None,
+    chunk_size: int | None = None,
+    chunk_overlap: int | None = None,
 ) -> tuple[Document, bool]:
     """Ingest a single document file into PostgreSQL / pgvector.
 
@@ -65,6 +68,10 @@ async def ingest_file(
         or derived from filename.
     session:
         Optional active AsyncSession. If None, a session is created from AsyncSessionLocal.
+    chunk_size:
+        Optional chunk size override in characters.
+    chunk_overlap:
+        Optional chunk overlap override in characters.
 
     Returns
     -------
@@ -78,10 +85,10 @@ async def ingest_file(
     if session is None:
         async with AsyncSessionLocal() as sess:
             return await _ingest_file_session(
-                sess, file_path, doc_type, min_role_level, title
+                sess, file_path, doc_type, min_role_level, title, chunk_size, chunk_overlap
             )
     return await _ingest_file_session(
-        session, file_path, doc_type, min_role_level, title
+        session, file_path, doc_type, min_role_level, title, chunk_size, chunk_overlap
     )
 
 
@@ -91,6 +98,8 @@ async def _ingest_file_session(
     doc_type: str,
     min_role_level: int,
     title: str | None,
+    chunk_size: int | None = None,
+    chunk_overlap: int | None = None,
 ) -> tuple[Document, bool]:
     # 1. sha256 the file; if content_hash exists, skip and report duplicate.
     content_hash = compute_sha256(path)
@@ -144,7 +153,12 @@ async def _ingest_file_session(
             for p in raw_pages
         ]
 
-        chunks = chunk_document(cleaned_pages, doc_type=doc_type)
+        chunks = chunk_document(
+            cleaned_pages,
+            doc_type=doc_type,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+        )
         chunk_texts = [c["text"] for c in chunks]
         embeddings = embed_passages(chunk_texts) if chunk_texts else []
 
@@ -186,3 +200,87 @@ async def _ingest_file_session(
         session.add(doc)
         await session.commit()
         raise
+
+
+async def reindex_document(
+    doc_id: uuid.UUID,
+    source_path: Path,
+    doc_type: str,
+    chunk_size: int | None = None,
+    chunk_overlap: int | None = None,
+    session: AsyncSession | None = None,
+) -> int:
+    """Re-chunk and re-embed an existing document from source file in ONE transaction.
+
+    Keeps the document id, title and min_role_level unchanged and sets status 'indexed'.
+    Returns the number of newly inserted chunks.
+    """
+    if not source_path.is_file():
+        raise FileNotFoundError(f"Source file not found: {source_path}")
+
+    # Extract, clean, chunk, embed
+    raw_pages = extract_pages(source_path)
+    all_texts = [p["text"] for p in raw_pages]
+    cleaned_pages: list[PageDict] = [
+        {
+            "page": p["page"],
+            "text": clean_text(p["text"], all_pages=all_texts),
+            "source": p["source"],
+            "doc_type": p["doc_type"],
+        }
+        for p in raw_pages
+    ]
+
+    chunks = chunk_document(
+        cleaned_pages,
+        doc_type=doc_type,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+    )
+    chunk_texts = [c["text"] for c in chunks]
+    embeddings = embed_passages(chunk_texts) if chunk_texts else []
+    content_hash = compute_sha256(source_path)
+
+    async def _execute(sess: AsyncSession) -> int:
+        db_doc = await sess.get(Document, doc_id)
+        if db_doc is None:
+            raise ValueError(f"Document with id {doc_id} not found in database")
+
+        min_role_level = db_doc.min_role_level
+
+        # Delete existing chunks for this document
+        await sess.execute(
+            delete(DocumentChunk).where(DocumentChunk.document_id == doc_id)
+        )
+
+        # Insert new chunks with min_role_level copied from doc
+        for idx, (chunk_dict, emb) in enumerate(zip(chunks, embeddings, strict=True)):
+            chunk_obj = DocumentChunk(
+                document_id=doc_id,
+                chunk_index=chunk_dict.get("chunk_index", idx),
+                content=chunk_dict["text"],
+                page_number=chunk_dict.get("page"),
+                min_role_level=min_role_level,
+                embedding=emb,
+            )
+            sess.add(chunk_obj)
+
+        # Keep document id, title and min_role_level unchanged and set status 'indexed'
+        db_doc.status = "indexed"
+        db_doc.content_hash = content_hash
+        await sess.commit()
+        await sess.refresh(db_doc)
+        logger.info(
+            "Successfully reindexed %s as '%s' (%d chunks)",
+            source_path.name,
+            db_doc.doc_type,
+            len(chunks),
+        )
+        return len(chunks)
+
+    if session is None:
+        async with AsyncSessionLocal() as sess:
+            return await _execute(sess)
+    else:
+        return await _execute(session)
+
