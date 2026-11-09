@@ -47,3 +47,5 @@ Thumbs.db
 # ── Docker ────────────────────────────────────────────────────────────────────
 *.log
 backend/metrics/
+
+backend/eval/.eval_cache.json

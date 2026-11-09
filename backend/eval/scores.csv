@@ -1,0 +1,71 @@
+id,question,min_role,answerable,top1_score,hit,reciprocal_rank
+eval_01,What is the deduction fee for diagnostic inspection when an open-box electronic product is refunded?,1,True,0.7122,1,0.2000
+eval_02,What is the minimum order subtotal needed to qualify for free domestic standard shipping?,1,True,0.7534,1,0.5000
+eval_03,What restocking fee is charged for returning high-value appliances or electronics over $199?,1,True,0.7726,1,1.0000
+eval_04,How long are packages without an RMA barcode held in quarantine before disposal or return?,1,True,0.8084,1,1.0000
+eval_05,How many days from delivery are manufacturing defects covered under the standard hardware warranty?,1,True,0.7768,1,0.5000
+eval_06,Which shipping carriers deliver R.E.S.A Support orders?,1,True,0.8023,1,1.0000
+eval_07,What extended plan can I buy at checkout to protect against accidental drops that the standard warranty excludes?,1,True,0.7363,1,1.0000
+eval_08,What is the minimum character requirement and history restriction for customer passwords?,1,True,0.8033,1,1.0000
+eval_09,What dollar order limits apply when choosing Klarna Pay in 4 installment financing?,1,True,0.7499,1,1.0000
+eval_10,How frequently are web server access logs and clickstream telemetry purged from active databases?,1,True,0.7530,1,1.0000
+eval_11,How many hours after warehouse packing does a package tracking link become active?,1,True,0.8328,1,1.0000
+eval_12,What are the allowed minimum and maximum dollar amounts for custom digital gift cards?,1,True,0.7818,1,1.0000
+eval_13,How much time does a customer have after checkout to cancel an order through self-service?,1,True,0.8329,1,1.0000
+eval_14,How many annual tier points must a customer accumulate to qualify for Apex Circle Silver status?,1,True,0.7669,1,1.0000
+eval_15,How many foreign sovereign countries are eligible for international delivery?,1,True,0.7552,1,1.0000
+eval_16,Within what timeframe must shipping transit damage be reported by the customer?,1,True,0.8292,1,1.0000
+eval_17,How many days from the purchase date does the retail price adjustment protection window last?,1,True,0.7959,1,1.0000
+eval_18,Can multiple promotional coupon codes be stacked together on the same order?,1,True,0.8468,1,1.0000
+eval_19,After how many repeated customer contacts on the same unresolved issue must an agent escalate to Tier-2?,2,True,0.7868,1,1.0000
+eval_20,Which fraud risk score range sends an order to the manual review queue?,2,True,0.7876,1,1.0000
+eval_21,What is the non-refundable dispute fee assessed immediately when a customer files a chargeback?,2,True,0.8058,1,1.0000
+eval_22,What is the live chat first response time requirement under support SLA rules?,2,True,0.7653,1,1.0000
+eval_23,What is the inactivity timeout period after which Horizon Admin Portal sessions automatically terminate?,2,True,0.7213,1,1.0000
+eval_24,Which specific form must be completed when requesting a supervisor override for concessions over $150?,2,True,0.8104,1,1.0000
+eval_25,What is State 101 called in the warehouse fulfillment state machine?,2,True,0.7794,1,1.0000
+eval_26,What is the monthly quality assurance passing benchmark score for customer support agents?,2,True,0.8717,1,1.0000
+eval_27,What keyboard shortcut triggers a hard cache refresh if the Horizon Portal freezes on Windows?,2,True,0.8049,1,1.0000
+eval_28,Which auxiliary status code is used in Assembled WFM for scheduled fifteen-minute paid rest breaks?,2,True,0.7278,1,1.0000
+eval_29,What spend threshold mandates joint approval from both the Chief Financial Officer and CEO for SaaS procurement?,3,True,0.7158,1,1.0000
+eval_30,What is the maximum allowable transactional data loss window (RPO) under the enterprise disaster recovery plan?,3,True,0.8165,1,1.0000
+eval_31,"If a customer returns an eligible open-box electronic item 10 days after delivery and paid by credit card, what refund timeline and fee deductions should they expect?",1,True,0.7766,1,1.0000
+eval_32,What carrier intercept charge and procedure apply if a delivery address error is not corrected within the first thirty minutes?,1,True,0.7419,1,1.0000
+eval_33,"What intake steps, quarantine period, and accessory remittance deadlines govern physical returns received at the Louisville warehouse?",1,True,0.7594,1,1.0000
+eval_34,"What documents and steps are needed to file a warranty claim, and how is a defective unit repaired or replaced?",1,True,0.7199,1,1.0000
+eval_35,What evidence package and photographic angles must be provided within 72 hours to get an expedited replacement for cracked or broken items?,1,True,0.7729,1,1.0000
+eval_36,"What specific customer data, verification notes, and troubleshooting summary must be compiled before completing a warm transfer to Tier-2?",2,True,0.7473,1,1.0000
+eval_37,What evidence documentation and timeline targets must support defense packets submitted to counter credit card chargebacks?,2,True,0.7702,1,1.0000
+eval_38,"When carrier tracking shows no movement for 5 business days, how does an agent initiate a tracer and assemble a lost transit insurance claim?",2,True,0.7647,1,1.0000
+eval_39,"How are electronic records, chat logs, and database preservation holds automated and audited under Form LH-101 upon notification of a lawsuit?",3,True,0.7334,1,1.0000
+eval_40,How does the enterprise disaster recovery plan handle cross-region cloud database failover and physical crisis command during total datacenter outages?,3,True,0.7365,1,1.0000
+eval_41,What is the official capital city of Australia and what is its metropolitan population?,1,False,0.4143,,
+eval_42,How do you derive the mathematical formula for the Schwarzschild radius of a non-rotating black hole?,1,False,0.5221,,
+eval_43,What baker percentage of hydration and fermentation time creates the best open crumb in sourdough bread?,1,False,0.4725,,
+eval_44,Which national team won the 1998 FIFA World Cup final in Paris and what was the score?,1,False,0.4454,,
+eval_45,How do motorists renew their Class C driver license using the California DMV online service?,1,False,0.6275,,
+eval_46,What nitrogen-phosphorus-potassium ratio is recommended for fertilizing tomato plants during flowering?,1,False,0.4616,,
+eval_47,What is the direct toll-free customer support telephone number for Netflix streaming accounts?,1,False,0.5788,,
+eval_48,What was the final adjusted closing price of Apple stock on the last trading day of 2019?,1,False,0.5688,,
+eval_49,How do you set up an ingress controller in Kubernetes with Let's Encrypt TLS certificates?,1,False,0.5509,,
+eval_50,What are the rules regarding hog line violations and stone placement scoring in Olympic curling?,1,False,0.5610,,
+eval_51,What are the maximum discretionary concession limits for Tier-2 agents handling escalated disputes?,1,False,0.6112,,
+eval_52,What risk score threshold triggers an automatic order cancellation in our internal fraud detection system?,1,False,0.6759,,
+eval_53,What is the procedure for submitting a Form SO-404 supervisor override to reverse a customer denial?,1,False,0.6527,,
+eval_54,What compensation voucher amount can agents issue when an order is delayed because an item was out of stock?,1,False,0.6742,,
+eval_55,What are the base salary ranges and compensation bands for senior support operations management?,1,False,0.5590,,
+eval_56,What spend threshold requires formal approval from the Chief Financial Officer for new enterprise software purchases?,1,False,0.6039,,
+eval_57,What emergency capital disbursement authority limit does the Executive On-Call possess during a corporate crisis?,1,False,0.5791,,
+eval_58,What is the annual compensation cash retainer and equity stipend for independent Board members?,1,False,0.5595,,
+eval_59,Under what dollar price can a damaged non-electronic item be refunded or replaced without sending it back?,1,True,0.8592,1,1.0000
+eval_60,Which three customer-specific placeholders must every outgoing support macro include?,2,True,0.7741,1,1.0000
+eval_61,How many minutes does an agent have to notify Trust & Safety after ending an abusive contact?,2,True,0.7296,1,1.0000
+eval_62,How many hours do we have to notify regulators after a confirmed customer data breach?,3,True,0.7906,1,1.0000
+eval_63,What is the maximum allowed cost per resolved live chat session?,3,True,0.7662,1,1.0000
+eval_64,How many business days does the privacy team take to review a new Privacy Impact Assessment form?,3,True,0.7426,1,1.0000
+eval_65,How many days are CCTV recordings kept before they are overwritten?,3,True,0.7248,1,1.0000
+eval_66,What is the base salary band for a Tier-2 Operations and Escalations Specialist?,3,True,0.8033,1,1.0000
+eval_67,What must an agent offer a customer if a backorder will last more than 5 business days?,2,True,0.7567,1,1.0000
+eval_68,How much is the annual cash retainer for independent Board members?,3,True,0.8453,1,1.0000
+eval_69,Does R.E.S.A Support have a mobile app?,1,False,0.7082,,
+eval_70,Can I choose a specific delivery date for my order?,1,False,0.7058,,
