@@ -5,7 +5,7 @@ Covers:
   - parsers.extract_pages()  (markdown, txt, CSV)
   - clean.clean_text()
   - chunking.chunk_document()
-      - chunk sizes within bounds (<=800 chars)
+      - chunk sizes within bounds (<=500 chars)
       - overlap present between consecutive chunks
       - tickets produce exactly 1 chunk per ticket row
       - policy/FAQ chunks carry a "Title > Section:" heading prefix
@@ -216,19 +216,19 @@ class TestCleanText:
 
 class TestRecursiveCharacterTextSplitter:
     def test_short_text_is_single_chunk(self) -> None:
-        splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=120)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=75)
         text = "Short text."
         chunks = splitter.split_text(text)
         assert len(chunks) == 1
         assert chunks[0] == text
 
     def test_chunk_sizes_within_bounds(self) -> None:
-        splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=120)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=75)
         text = ("A" * 200 + "\n\n") * 20  # 4000+ chars
         chunks = splitter.split_text(text)
         assert chunks, "Expected at least one chunk"
         for chunk in chunks:
-            assert len(chunk) <= 800, f"Chunk too long: {len(chunk)}"
+            assert len(chunk) <= 500, f"Chunk too long: {len(chunk)}"
 
     def test_overlap_present(self) -> None:
         """The end of chunk N should share tokens with the start of chunk N+1.
@@ -315,7 +315,7 @@ class TestChunkDocument:
         p = _write_tmp(tmp_path, "big_policy.md", big_doc)
         pages = extract_pages(p)
         chunks = chunk_document(pages, doc_type="markdown")
-        max_len = 800 + len("Sample Policy > Extra Section: ")
+        max_len = 500 + len("Sample Policy > Extra Section: ")
         for chunk in chunks:
             assert len(chunk["text"]) <= max_len, (
                 f"Chunk exceeds size bound: {len(chunk['text'])}"
@@ -341,7 +341,7 @@ class TestChunkDocument:
         chunks = chunk_document(fake_pages, doc_type="pdf")
         assert chunks, "Expected chunks from PDF"
         for chunk in chunks:
-            assert len(chunk["text"]) <= 800
+            assert len(chunk["text"]) <= 500
 
     # -----------------------------------------------------------------------
     # Edge cases

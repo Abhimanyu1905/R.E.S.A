@@ -35,7 +35,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       GOOGLE_API_KEY: ${GOOGLE_API_KEY}
       LLM_MODEL: ${LLM_MODEL:-gemini-flash-latest}
-      CONFIDENCE_THRESHOLD: ${CONFIDENCE_THRESHOLD:-0.35}
+      CONFIDENCE_THRESHOLD: ${CONFIDENCE_THRESHOLD:-0.68}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
     ports:
       - "8001:8000"

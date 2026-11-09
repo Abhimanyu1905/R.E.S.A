@@ -15,6 +15,8 @@ WORKDIR /app
 # ── python deps (done as root so the venv is owned by root, readable by all) ─
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements-dev.txt .
+RUN pip install --no-cache-dir -r requirements-dev.txt
 
 # ── application code ─────────────────────────────────────────────────────────
 COPY --chown=appuser:appgroup . .

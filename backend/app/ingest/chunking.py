@@ -21,8 +21,8 @@ Strategy
     (no heading prefix).
 
 RecursiveCharacterTextSplitter parameters (matches spec):
-    chunk_size    = 800
-    chunk_overlap = 120
+    chunk_size    = 500
+    chunk_overlap = 75
     separators    = ["\n\n", "\n", ". ", " "]
 
 Each returned chunk dict has:
@@ -55,8 +55,8 @@ class RecursiveCharacterTextSplitter:
 
     def __init__(
         self,
-        chunk_size: int = 800,
-        chunk_overlap: int = 120,
+        chunk_size: int = 500,
+        chunk_overlap: int = 75,
         separators: list[str] | None = None,
     ) -> None:
         if chunk_overlap >= chunk_size:
@@ -142,8 +142,8 @@ class RecursiveCharacterTextSplitter:
 # Module-level splitter instance (shared, re-entrant)
 # ---------------------------------------------------------------------------
 
-CHUNK_SIZE = 800
-CHUNK_OVERLAP = 120
+CHUNK_SIZE = 500
+CHUNK_OVERLAP = 75
 
 _SPLITTER = RecursiveCharacterTextSplitter(
     chunk_size=CHUNK_SIZE,
