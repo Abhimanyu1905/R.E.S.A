@@ -4,7 +4,7 @@ STACK: Python 3.12, FastAPI, Pydantic v2, SQLAlchemy 2 + Alembic, psycopg 3,
 PostgreSQL 16 + pgvector (HNSW, cosine), sentence-transformers
 BAAI/bge-small-en-v1.5 (384 dims, normalized; query prefix
 'Represent this sentence for searching relevant passages: ' for queries only),
-Anthropic SDK model claude-sonnet-5-5 behind an LLMClient interface,
+Gemini (gemini-flash-latest) via the google-genai SDK behind an LLMClient interface,
 React 18 + Vite + TypeScript + TanStack Query + Zustand + Recharts,
 Docker Compose, pytest, ruff, mypy, GitHub Actions.
 

@@ -22,8 +22,11 @@ from typing import TYPE_CHECKING, Any
 
 if sys.platform == "win32":
     import asyncio
+    import warnings
 
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", DeprecationWarning)
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from urllib.parse import urlsplit, urlunsplit
 
